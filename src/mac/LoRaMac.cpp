@@ -821,6 +821,9 @@ static void OnRadioRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t 
 		LOG_LIB("LM", "OnRadioRxDone => FRAME_TYPE_DATA_CONFIRMED_DOWN");
 	case FRAME_TYPE_DATA_UNCONFIRMED_DOWN:
 	{
+		//VIV
+		LOG_LIB("LM", "OnRadioRxDone => FRAME_TYPE_DATA_UNCONFIRMED_DOWN >>>>>>>>>>>>>>>>>>>>>>>>>>");
+
 		if (macHdr.Bits.MType == FRAME_TYPE_DATA_UNCONFIRMED_DOWN)
 		{
 			LOG_LIB("LM", "OnRadioRxDone => FRAME_TYPE_DATA_UNCONFIRMED_DOWN");
@@ -1099,9 +1102,13 @@ static void OnRadioRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t 
 			// in case of a confirmed downlink retransmission.
 			LoRaMacFlags.Bits.McpsInd = 1;
 			LoRaMacFlags.Bits.McpsIndSkip = skipIndication;
+
+			LOG_LIB("LM", "++++++++++++++++++++++++");
 		}
 		else
 		{
+			LOG_LIB("LM", "------------------------");
+
 			McpsIndication.Status = LORAMAC_EVENT_INFO_STATUS_MIC_FAIL;
 
 			PrepareRxDoneAbort();
@@ -1438,6 +1445,7 @@ static void OnMacStateCheckTimerEvent(void)
 
 	if (LoRaMacFlags.Bits.McpsInd == 1)
 	{
+		LOG_LIB("LM", ">>>>>>>>>>>>>>>>>>>>>>> LoRaMacFlags.Bits.McpsInd=1");
 		if (LoRaMacDeviceClass == CLASS_C)
 		{ // Activate RX2 window for Class C
 			OnRxWindow2TimerEvent();
@@ -3317,7 +3325,7 @@ LoRaMacStatus_t LoRaMacMcpsRequest(McpsReq_t *mcpsRequest)
 	uint8_t fPort = 0;
 	void *fBuffer;
 	uint16_t fBufferSize;
-	int8_t datarate;
+	int8_t datarate = 0;
 	bool readyToSend = false;
 
 	if (mcpsRequest == NULL)

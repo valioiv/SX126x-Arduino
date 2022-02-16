@@ -1031,7 +1031,7 @@ void RadioRx(uint32_t timeout)
 						  IRQ_RADIO_NONE,
 						  IRQ_RADIO_NONE);
 
-	LOG_LIB("RADIO", "RX window timeout = %ld", timeout);
+	LOG_LIB("RADIO", "RX window timeout = %ld", (long int)timeout);
 	if (RxContinuous == true)
 	{
 		// Even Continous mode is selected, put a timeout here
@@ -1291,6 +1291,9 @@ void RadioBgIrqProcess(void)
 
 		if ((irqRegs & IRQ_RX_DONE) == IRQ_RX_DONE)
 		{
+			//VIV
+			LOG_LIB("RADIO", "RadioIrqProcess => **********************************");
+
 			uint8_t size;
 
 			rx_timeout_handled = true;

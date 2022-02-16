@@ -457,36 +457,45 @@ static void McpsIndication(McpsIndication_t *mcpsIndication)
 {
 	lmh_app_data_t app_data;
 
+	//VIV
+		Serial.printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ McpsIndication\n");
+
 	if (mcpsIndication->Status != LORAMAC_EVENT_INFO_STATUS_OK)
 	{
 		return;
 	}
 
+	Serial.printf( "received ");
 	switch (mcpsIndication->McpsIndication)
 	{
 	case MCPS_UNCONFIRMED:
 	{
+		Serial.printf( "unconfirmed ");
 		break;
 	}
 
 	case MCPS_CONFIRMED:
 	{
+		Serial.printf( "confirmed ");
 		break;
 	}
 
 	case MCPS_PROPRIETARY:
 	{
+		Serial.printf( "proprietary ");
 		break;
 	}
 
 	case MCPS_MULTICAST:
 	{
+		Serial.printf( "multicast ");
 		break;
 	}
 
 	default:
 		break;
 	}
+	Serial.printf( "downlink: rssi = %d, snr = %d, datarate = %d\r\n", mcpsIndication->Rssi, (int)mcpsIndication->Snr,(int)mcpsIndication->RxDatarate);
 
 	// Check Multicast
 	// Check Port
@@ -504,6 +513,9 @@ static void McpsIndication(McpsIndication_t *mcpsIndication)
 
 	if (mcpsIndication->RxData == true)
 	{
+		//VIV
+		Serial.printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> %d\n", mcpsIndication->Port);
+
 		switch (mcpsIndication->Port)
 		{
 		case LORAWAN_CERTIF_PORT:
